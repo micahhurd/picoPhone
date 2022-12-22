@@ -1,0 +1,7 @@
++19728370200,2022-07-02 16:46:01,0,This is a message
++19728370200,2022-07-01 17:30:30,0,This is also a message
++19728370200,2022-07-04 06:02:15,0,This is a really boring message
++19728370200,2022-07-03 23:59:59,0,Here is a really super duper long message, which can be used somewhat in order to stress the ability of the function to manage longs messages within the confines of the LCD display.
++19728370200,2022-07-15 11:30:41,0,A message
++19728370200,2022-07-10 15:30:41,0,typical message
++19728370200,2022-06-10 15:30:41,0,asdfadsf
