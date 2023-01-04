@@ -23,6 +23,8 @@ inbox_que_flag_variable_name = "inboxQueStatus"
 inbox_que_flag_pending = "pending"
 inbox_que_flag_empty = "empty"
 
+signalServicePIDflag = "signalServicePID"
+
 server_max_hangtime = 60    # The max seconds the server is allowed to interact with client in one session
 
 socket_port = 1883

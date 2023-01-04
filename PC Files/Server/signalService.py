@@ -5,6 +5,12 @@ import time
 import datetime
 import subprocess
 
+def recordPID(cachVarID: str):
+    import os
+    tempStr = os.getpid()
+    print(f"This process has the PID: {tempStr}")
+    cache.put(cachVarID, tempStr)
+
 
 def display_messages(msgs_list):
     def arrange_by_timestamp(msgs_dict_list):
@@ -465,7 +471,9 @@ def downloadMsgsFromSignal(debug=False):
 
         signalMsgsRaw = slib.readTxtFile(testFile, outputFormat="str")
     else:
+        print("Checking signal messages...")
         signalMsgsRaw = rcvSigMsg()  # Get latest messages from SigCli
+        print("Done checking signal messages.")
 
     if signalMsgsRaw != "":
         slib.write_str_to_file(signalMsgsRaw, cfg.signalRcvdMsgsDump, writemode="w")
@@ -506,6 +514,9 @@ def getMsgsFromPhoneQue(outboundMsgsQue: list) -> list:
 
 def uploadMsgsToSignal(outboundMsgsQue: list) -> list:
 
+    # Group message:
+    # ./signal-cli -a +19728370200 send -m "Message Here." -g "Ahy1AROCc03cIkRgY5lQGqs6tsVc2qhdoQMa65Zq6EU="
+
     # Signal message string format:
     # [recipient],[message string]
     if len(outboundMsgsQue) > 0:
@@ -530,6 +541,7 @@ outboundMsgsQue = []
 # ===============================================
 
 # ========= Prepare service Runtime =============
+recordPID(cfg.signalServicePIDflag)     # Record the process ID; so the socket server can determine if this is running
 historical_dict_list = read_signal_msg_history(history_file)
 
 while False:
@@ -542,11 +554,11 @@ while False:
 slib.printLog("Started signalService.py main loop", console=False)
 while True:     # Main event loop
 
-    if False:
-        msgsList = downloadMsgsFromSignal(debug=True)
+    if True:
+        msgsList = downloadMsgsFromSignal(debug=False)
         queMsgsToPhone(msgsList)
-
-    outboundMsgsQue = getMsgsFromPhoneQue(outboundMsgsQue)
-    outboundMsgsQue = uploadMsgsToSignal(outboundMsgsQue)
+    if False:
+        outboundMsgsQue = getMsgsFromPhoneQue(outboundMsgsQue)
+        outboundMsgsQue = uploadMsgsToSignal(outboundMsgsQue)
 
     time.sleep(1)
